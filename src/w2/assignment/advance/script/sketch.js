@@ -1,10 +1,10 @@
 function setup() {
-  setCanvasContainer('canvas');
   background(255);
 }
 
 function draw() {
   background('#E4C8A1');
+  createCanvas();
   //   바닥
   fill('#453A40');
   rect(0, 450, 10000, 80);
