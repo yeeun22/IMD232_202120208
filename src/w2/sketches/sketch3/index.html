@@ -22,6 +22,7 @@
       <main>
         <section>
           <div class="container">
+            <h1>금예은 W2 Sketch3</h1>
             <h2 id="html-id"></h2>
           </div>
         </section>
@@ -29,6 +30,7 @@
       <footer>
         <section>
           <div class="container">
+            <h3>코드</h3>
             <h6>index.html</h6>
             <pre
               class="line-numbers"
@@ -40,8 +42,13 @@
     </div>
     <script>
       let userName = prompt('당신의 이름은?', '홍길동');
-      document.getElementById('html-id').textContent =
-        userName + '님. ' + '환영해요!';
+      let isUserNameCorrect = confirm(
+        '당신의 이름이 ' + userName + '이 맞습니까?'
+      );
+      if (isUserNameCorrect == true) {
+        document.getElementById('html-id').textContent =
+          userName + '님. ' + '환영해요!';
+      }
     </script>
   </body>
 </html>

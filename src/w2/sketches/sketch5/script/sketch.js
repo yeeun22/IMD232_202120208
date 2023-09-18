@@ -1,6 +1,6 @@
 // html의 head와 body의 관계
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(800, 400);
 }
 
 function draw() {
