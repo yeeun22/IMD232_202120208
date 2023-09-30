@@ -1,31 +1,36 @@
-// let x;
-// let y;
-let position;
-// let velocityX = 3;
-// let velocityY = -3;
-let velocity;
+// let p = {
+//   add: function(otherVector){
+//     this.x += otherVector.x;
+//     this.y += otherVector.y;
+//   }
+// }
+let p = {};
+let v = {
+  x: 3,
+  y: 5,
+};
 
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
   background(255);
-  // x = width / 2;
-  // y = height / 2;
-  // 캔버스가 생성된 후 width,height가 생김 + createVector는 set up 밑에서만 가능
-  position = createVector(width / 2, height / 2);
-  velocity = createVector(3, 5);
+  p.x = width / 2;
+  p.y = height / 2;
+
+  console.log('p', p);
+  console.log('v', v);
 }
 
 function draw() {
   background('white');
 
-  // x += velocityX;
-  // y += velocityY;
-  position.add(velocity);
-  ellipse(position.x, position.y, 50);
-  if (position.x < 0 || position.x > width) {
-    velocity.x *= -1;
+  // p.add(v);
+  p.x += v.x;
+  p.y += v.y;
+  ellipse(p.x, p.y, 50);
+  if (p.x < 0 || p.x > width) {
+    v.x *= -1;
   }
-  if (position.y < 0 || position.y > height) {
-    velocity.y *= -1;
+  if (p.y < 0 || p.y > height) {
+    v.y *= -1;
   }
 }
