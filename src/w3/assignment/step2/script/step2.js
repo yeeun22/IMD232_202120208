@@ -1,54 +1,29 @@
-let pos;
-let vel;
-let acc;
-let radius = 50;
+let mover;
+let mVec;
 
 function setup() {
   setCanvasContainer('canvasHere', 3, 2, true);
-  background(255);
-  pos = createVector(width / 2, height / 2);
-  vel = createVector(0, 0);
-  acc = createVector(0);
+
+  mover = new Mover(width / 2, height / 2, 25);
+  mVec = createVector();
+
+  background('white');
 }
 
 function draw() {
-  background(255);
+  mVec.set(mouseX, mouseY);
+  let towardMouseVec = p5.Vector.sub(mVec, mover.pos);
+  towardMouseVec.setMag(0.1);
+  // mover.createRandomAcc();
+  mover.setAcc(towardMouseVec);
+  mover.update();
+  // mover.edgeInfinite();
 
-  // circle
+  background('white');
+  mover.display();
+  mover.displayVectors();
+
   stroke(0);
-  fill(100);
-  acc = p5.Vector.random2D();
-  acc.mult(0.5);
-  vel.add(acc);
-  vel.limit(3);
-  pos.add(vel);
-  infiniteEdge();
-  ellipse(pos.x, pos.y, 2 * radius);
-
-  function infiniteEdge() {
-    if (pos.x < 0 + radius) {
-      pos.x = width - radius;
-    } else if (pos.x > width - radius) {
-      pos.x = 0 + radius;
-    }
-    if (pos.y < 0 + radius) {
-      pos.y = height - radius;
-    } else if (pos.y > height - radius) {
-      pos.y = 0 + radius;
-    }
-  }
-
-  // line
-  let mouse = createVector(mouseX, mouseY);
-
   strokeWeight(1);
-  stroke(0);
-  line(pos.x, pos.y, mouse.x, mouse.y);
-  mouse.sub();
-
-  stroke('red');
-  line(pos.x, pos.y, pos.x + vel.x * 10, pos.y + vel.y * 100);
-
-  stroke('blue');
-  line(pos.x, pos.y, pos.x + acc.x * 10, pos.y + acc.y * 50);
+  line(0, 0, mouseX - mover.pos.x, mouseY - mover.pos.y);
 }
