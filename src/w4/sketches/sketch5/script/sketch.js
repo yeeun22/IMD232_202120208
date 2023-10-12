@@ -24,6 +24,14 @@ function draw() {
   }
   moverA.display();
   moverA.displayVector();
+  if (moverA.contactEdge()) {
+    let c = 0.5;
+    // let friction = createVector(moverA.vel.x, moverA.vel.y);
+    let friction = moverA.vel.copy();
+    friction.mult(-1);
+    friction.mult(c);
+    moverA.applyForce(friction);
+  }
   moverA.update();
   moverA.checkEdges();
 
@@ -36,6 +44,13 @@ function draw() {
   }
   moverB.display();
   moverB.displayVector();
+  if (moverB.contactEdge()) {
+    let c = 0.1;
+    let friction = moverB.vel.copy();
+    friction.mult(-1);
+    friction.mult(c);
+    moverB.applyForce(friction);
+  }
   moverB.update();
   moverB.checkEdges();
 }

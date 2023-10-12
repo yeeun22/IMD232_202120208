@@ -19,28 +19,37 @@ class Mover {
     this.acc.mult(0);
   }
 
+  contactEdge() {
+    if (this.pos.y >= height - 1 - this.rad - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   checkEdges() {
-    if (this.pos.x < 0) {
-      this.pos.x -= 0;
+    const bounce = -0.9;
+    if (this.pos.x < 0 + this.rad) {
+      this.pos.x -= 0 + this.rad;
       this.pos.x *= -1;
-      this.pos.x += 0;
-      this.vel.x *= -1;
-    } else if (this.pos.x > width - 1) {
-      this.pos.x -= width - 1;
+      this.pos.x += 0 + this.rad;
+      this.vel.x *= bounce;
+    } else if (this.pos.x > width - this.rad) {
+      this.pos.x -= width - 1 - this.rad;
       this.pos.x *= -1;
-      this.pos.x += width - 1;
-      this.vel.x *= -1;
+      this.pos.x += width - 1 - this.rad;
+      this.vel.x *= bounce;
     }
     if (this.pos.y < 0) {
       this.pos.y -= 0;
       this.pos.y *= -1;
       this.pos.y += 0;
-      this.vel.y *= -1;
-    } else if (this.pos.y > height - 1) {
-      this.pos.y -= height - 1;
+      this.vel.y *= bounce;
+    } else if (this.pos.y > height - 1 - this.rad) {
+      this.pos.y -= height - 1 - this.rad;
       this.pos.y *= -1;
-      this.pos.y += height - 1;
-      this.vel.y *= -1;
+      this.pos.y += height - 1 - this.rad;
+      this.vel.y *= bounce;
     }
   }
 
