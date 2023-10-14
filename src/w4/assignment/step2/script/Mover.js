@@ -34,7 +34,7 @@ class Mover {
   }
 
   checkEdges() {
-    const bounce = -0.7;
+    const bounce = -0.5;
     if (this.pos.x < 0 + this.rad) {
       this.pos.x -= 0 + this.rad;
       this.pos.x *= -1;
