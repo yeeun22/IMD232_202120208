@@ -46,12 +46,7 @@ class Mover {
       this.pos.x += width - 1 - this.rad;
       this.vel.x *= bounce;
     }
-    if (this.pos.y < 0) {
-      this.pos.y -= 0;
-      this.pos.y *= -1;
-      this.pos.y += 0;
-      this.vel.y *= bounce;
-    } else if (this.pos.y > height - 1 - this.rad) {
+    if (this.pos.y > height - 1 - this.rad) {
       this.pos.y -= height - 1 - this.rad;
       this.pos.y *= -1;
       this.pos.y += height - 1 - this.rad;
