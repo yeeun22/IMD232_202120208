@@ -1,11 +1,19 @@
 let mover;
 let gravity;
+let mVec;
+let pMVec;
+let throwingForce;
 
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
   background(255);
+
   mover = new Mover(width / 2, height / 2, 25);
   gravity = createVector(0, 0.5);
+
+  mVec = createVector();
+  pMVec = createVector();
+  throwingForce = createVector();
 }
 
 function draw() {
@@ -15,10 +23,6 @@ function draw() {
   gravityA.mult(mover.mass);
 
   mover.applyForce(gravityA);
-  // // 바람
-  // if (mouseIsPressed && isMouseInsideCanvas()) {
-  //   mover.applyForce(wind);
-  // }
   mover.display();
   if (mover.contactEdge()) {
     let c = 0.3;
@@ -42,4 +46,10 @@ function mouseDragged() {
 }
 function mouseReleased() {
   mover.mouseReleased(mouseX, mouseY);
+
+  pMVec.set(pmouseX, pmouseY);
+  mVec.set(mouseX, mouseY);
+  let throwingForce = p5.Vector.sub(mVec, pMVec);
+  throwingForce.mult(mover.mass);
+  mover.applyForce(throwingForce);
 }
