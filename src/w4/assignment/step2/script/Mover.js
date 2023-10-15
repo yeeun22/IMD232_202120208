@@ -7,7 +7,7 @@ class Mover {
     this.rad = mass ** 0.5 * 10;
     this.isHover = false;
     this.isDragging = false;
-    this.movigOffset = createVector();
+    this.draggingOffset = createVector();
   }
 
   applyForce(force) {
@@ -34,7 +34,7 @@ class Mover {
   }
 
   checkEdges() {
-    const bounce = -0.5;
+    const bounce = -0.7;
     if (this.pos.x < 0 + this.rad) {
       this.pos.x -= 0 + this.rad;
       this.pos.x *= -1;
@@ -62,7 +62,11 @@ class Mover {
   display() {
     stroke('black');
     strokeWeight(1);
-    fill(200);
+    if (this.isHover) {
+      fill(0);
+    } else {
+      fill(200);
+    }
     ellipse(this.pos.x, this.pos.y, 2 * this.rad);
   }
 
@@ -74,13 +78,13 @@ class Mover {
   mousePressed(mX, mY) {
     if (this.isHover) {
       this.isDragging = true;
-      this.movigOffset.set(mX - this.pos.x, mY - this.pos.y);
+      this.draggingOffset.set(mX - this.pos.x, mY - this.pos.y);
     }
   }
 
   mouseDragged(mX, mY) {
     if (this.isDragging) {
-      this.pos.set(mX - this.movigOffset.x, mY - this.movigOffset.y);
+      this.pos.set(mX - this.draggingOffset.x, mY - this.draggingOffset.y);
     }
   }
 

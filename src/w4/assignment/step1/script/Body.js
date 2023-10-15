@@ -1,16 +1,14 @@
 class Body {
   constructor(x, y, mass) {
-    this.position = createVector(x, y);
-    this.velocity = createVector(0, 0);
-    this.acceleration = createVector(0, 0);
+    this.pos = createVector(x, y);
+    this.vel = createVector(0, 0);
+    this.acc = createVector(0, 0);
     this.mass = mass;
-    this.radius = this.mass ** (1 / 2) * 5;
-    this.velocityVisualization = createVector(0, 0);
-    this.accelerationVisualization = createVector(0, 0);
+    this.rad = this.mass ** (1 / 2) * 5;
   }
 
   attract(body) {
-    let force = p5.Vector.sub(this.position, body.position);
+    const force = p5.Vector.sub(this.pos, body.pos);
     let distance = constrain(force.mag(), 5, 25);
     let strength = (G * (this.mass * body.mass)) / distance ** 2;
     force.setMag(strength);
@@ -18,45 +16,19 @@ class Body {
   }
 
   applyForce(force) {
-    let forceDividedByMass = p5.Vector.div(force, this.mass);
-    this.acceleration.add(forceDividedByMass);
+    const acc = p5.Vector.div(force, this.mass);
+    this.acc.add(acc);
   }
 
   update() {
-    this.velocity.add(this.acceleration);
-    this.position.add(this.velocity);
-
-    this.velocityVisualization.set(this.velocity);
-    this.velocityVisualization.mult(10);
-
-    this.accelerationVisualization.set(this.acceleration);
-    this.accelerationVisualization.mult(100);
-
-    this.acceleration.set(0, 0);
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
   }
 
   display() {
-    stroke(0);
-    strokeWeight(2);
-    fill(127, 127);
-    circle(this.position.x, this.position.y, this.radius * 2);
-  }
-
-  displayVectors() {
-    noFill();
-    stroke('red');
-    line(
-      this.position.x,
-      this.position.y,
-      this.position.x + this.velocityVisualization.x,
-      this.position.y + this.velocityVisualization.y
-    );
-    stroke('blue');
-    line(
-      this.position.x,
-      this.position.y,
-      this.position.x + this.accelerationVisualization.x,
-      this.position.y + this.accelerationVisualization.y
-    );
+    noStroke();
+    fill(0, 127);
+    circle(this.pos.x, this.pos.y, this.rad * 2);
   }
 }

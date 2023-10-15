@@ -1,13 +1,11 @@
 let mover;
 let gravity;
-let wind;
 
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
   background(255);
   mover = new Mover(width / 2, height / 2, 25);
   gravity = createVector(0, 0.5);
-  // wind = createVector(0.5, 0);
 }
 
 function draw() {
@@ -22,10 +20,8 @@ function draw() {
   //   mover.applyForce(wind);
   // }
   mover.display();
-  // mover.displayVector();
   if (mover.contactEdge()) {
     let c = 0.3;
-    // let friction = createVector(mover.vel.x, mover.vel.y);
     let friction = mover.vel.copy();
     friction.mult(-1);
     friction.mult(c);

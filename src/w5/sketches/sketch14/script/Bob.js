@@ -16,6 +16,7 @@ class Bob {
   }
 
   update() {
+    this.vel.mult(0.98);
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.mult(0);

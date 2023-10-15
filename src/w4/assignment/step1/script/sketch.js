@@ -1,47 +1,38 @@
-let bodies = [];
-let bodyNum = 35;
-
-let G = 0.2;
-
-let showVector = false;
+const bodies = [];
+const bodyNum = 30;
+const G = 0.01;
 
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
+  for (let a = 0 + 1; a < bodyNum + 1; a++) {
+    bodies.push(a);
+  }
   reset();
+  background(255);
 }
 
 function draw() {
   background(255);
-
-  for (let i = 0; i < bodyNum; i++) {
-    for (let j = 0; j < bodyNum; j++) {
-      if (i !== j) {
-        let forceForJ = bodies[i].attract(bodies[j]);
+  for (let a = 0; a < bodies.length; a++) {
+    for (let j = 0; j < bodies.length; j++) {
+      if (a !== j) {
+        let forceForJ = bodies[a].attract(bodies[j]);
         bodies[j].applyForce(forceForJ);
       }
     }
-    bodies[i].update();
-    bodies[i].display();
-    if (showVector) {
-      bodies[i].displayVectors();
-    }
+    bodies[a].update();
+    bodies[a].display();
   }
+  // bodies.forEach((each) => {});
+  // bodies.forEach((each) => {});
 }
 
 function mousePressed() {
-  if (isMouseInsideCanvas()) {
-    reset();
-  }
+  reset();
 }
 
 function reset() {
-  for (let i = 0; i < bodyNum; i++) {
-    bodies[i] = new Body(random(width), random(height), random(16, 100));
-  }
-}
-
-function keyPressed() {
-  if (key === 's' || key === 'S') {
-    showVector = !showVector;
+  for (let a = 0; a < bodies.length; a++) {
+    bodies[a] = new Body(random(width), random(height), random(16, 100));
   }
 }
