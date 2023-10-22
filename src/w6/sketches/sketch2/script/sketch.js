@@ -13,6 +13,7 @@ function setup() {
 
 function draw() {
   particleArray.push(new Particle(width / 2, 20));
+  console.log(particleArray.length);
 
   background(255);
   for (let a = 0; a < particleArray.length; a++) {
@@ -27,5 +28,5 @@ function draw() {
     }
   }
 
-  console.log(particleArray.length);
+  // console.log(particleArray.length);
 }

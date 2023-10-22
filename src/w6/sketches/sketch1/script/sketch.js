@@ -11,8 +11,9 @@ function setup() {
 }
 
 function draw() {
-  //   console.log(particle.isDead());
+  // console.log(particle.isDead());
   if (particle.isDead()) {
+    // 만약 죽으면 다시 만들어라.
     particle = new Particle(width / 2, 20);
   }
   particle.applyForce(gravity);
