@@ -3,6 +3,7 @@ let floatingForce;
 let windForce;
 let texture;
 
+//외부 데이터 로딩할 때 쓰는 함수 (이름 지켜야 함!)
 function preload() {
   texture = loadImage('data/texture.png');
 }

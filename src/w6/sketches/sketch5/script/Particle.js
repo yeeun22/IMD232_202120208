@@ -28,6 +28,7 @@ class Particle {
     // noStroke();
     // fill(255, 255 * this.getNormalizedLife());
     // ellipse(this.pos.x, this.pos.y, this.rad * 2);
+    // tint(색상, 투명도) || (색상1, 색상2, 색상3, 투명도)
     tint(255, 255, 0, 255 * this.getNormalizedLife());
     image(texture, this.pos.x, this.pos.y);
   }
