@@ -1,3 +1,5 @@
+// let rotationSpeed = random(-0.1, 0.1); // chat
+
 class Particle {
   constructor(x, y) {
     this.pos = createVector(x, y);
@@ -6,6 +8,7 @@ class Particle {
     this.acc = createVector(0, 0);
     this.rad = 8;
     this.color = color(random(360), 100, 50);
+    // this.ratation = 0; // chat
   }
 
   applyForce(force) {
