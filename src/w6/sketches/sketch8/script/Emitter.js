@@ -5,7 +5,7 @@ class Emitter {
   }
 
   addParticle() {
-    this.particles.push(new Particle(random(width), -50));
+    this.particles.push(new Particle(random(width), -30));
   }
 
   update(gravity) {

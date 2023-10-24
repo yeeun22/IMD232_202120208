@@ -6,10 +6,9 @@ function setup() {
 
   emitter = new Emitter();
 
-  gravity = createVector(0, 0.25);
+  gravity = createVector(0, 0.2);
   colorMode(HSL, 360, 100, 100);
   background(255);
-  // frameRate(5);
 }
 
 function draw() {

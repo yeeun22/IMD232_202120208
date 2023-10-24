@@ -1,5 +1,3 @@
-// let rotationSpeed = random(-0.1, 0.1); // chat
-
 class Particle {
   constructor(x, y) {
     this.pos = createVector(x, y);
@@ -8,23 +6,32 @@ class Particle {
     this.acc = createVector(0, 0);
     this.rad = 8;
     this.color = color(random(360), 100, 50);
-    // this.ratation = 0; // chat
+    this.rotation = 0;
+    this.rotationSpeed = random(-1, 1);
   }
 
   applyForce(force) {
-    this.acc.set(force);
+    let forceG = p5.Vector.div(force, this.rad);
+    this.acc.set(forceG);
   }
 
   update() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.mult(0);
+
+    this.rotation += this.rotationSpeed;
   }
 
   display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.rotation);
+    rectMode(CENTER);
     noStroke();
     fill(this.color);
-    rect(this.pos.x, this.pos.y, this.rad * 2);
+    rect(0, 0, this.rad * 2);
+    pop();
   }
 
   isDead() {
