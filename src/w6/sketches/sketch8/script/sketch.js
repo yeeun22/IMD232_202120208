@@ -18,5 +18,5 @@ function draw() {
   background(255);
   emitter.update(gravity);
   emitter.display();
-  console.log(emitter.particles.length);
+  console.log('파티클 갯수', emitter.particles.length);
 }
