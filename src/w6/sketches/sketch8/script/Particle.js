@@ -1,7 +1,7 @@
 class Particle {
   constructor(x, y) {
     this.pos = createVector(x, y);
-    this.vel = createVector(0, 0);
+    this.vel = createVector(0, 0.1);
     // this.vel.rotate((TAU / 360) * random(-150, -30));
     this.acc = createVector(0, 0);
     this.rad = 8;
@@ -16,7 +16,7 @@ class Particle {
   }
 
   update() {
-    this.vel.add(this.acc);
+    // this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.mult(0);
 
