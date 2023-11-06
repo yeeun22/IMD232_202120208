@@ -1,27 +1,111 @@
-let traffic;
+var Engine = Matter.Engine,
+  Render = Matter.Render,
+  Runner = Matter.Runner,
+  Composites = Matter.Composites,
+  Events = Matter.Events,
+  Constraint = Matter.Constraint,
+  MouseConstraint = Matter.MouseConstraint,
+  Mouse = Matter.Mouse,
+  Body = Matter.Body,
+  Composite = Matter.Composite,
+  Bodies = Matter.Bodies;
 
-let debug = true;
+// create engine
+var engine = Engine.create(),
+  world = engine.world;
 
-function setup() {
-  setCanvasContainer('canvas', 2, 1, true);
+// create renderer
+let elem = document.querySelector('#canvas');
+var render = Render.create({
+  element: elem,
+  engine: engine,
+  options: {
+    width: 800,
+    height: 600,
+    showAngleIndicator: true,
+  },
+});
 
-  colorMode(HSL, 360, 100, 100, 100);
+Render.run(render);
 
-  traffic = new Traffic();
+// create runner
+var runner = Runner.create();
+Runner.run(runner, engine);
 
-  for (let n = 0; n < 30; n++) {
-    traffic.addVehicle(random(width), random(height));
+// add bodies
+var ground = Bodies.rectangle(395, 600, 815, 50, {
+    isStatic: true,
+    render: { fillStyle: '#060a19' },
+  }),
+  rockOptions = { density: 0.004 },
+  rock = Bodies.polygon(170, 450, 8, 20, rockOptions),
+  anchor = { x: 170, y: 450 },
+  elastic = Constraint.create({
+    pointA: anchor,
+    bodyB: rock,
+    length: 0.01,
+    damping: 0.01,
+    stiffness: 0.05,
+  });
+
+var pyramid = Composites.pyramid(500, 300, 9, 10, 0, 0, function (x, y) {
+  return Bodies.rectangle(x, y, 25, 40);
+});
+
+var ground2 = Bodies.rectangle(610, 250, 200, 20, {
+  isStatic: true,
+  render: { fillStyle: '#060a19' },
+});
+
+var pyramid2 = Composites.pyramid(550, 0, 5, 10, 0, 0, function (x, y) {
+  return Bodies.rectangle(x, y, 25, 40);
+});
+
+Composite.add(engine.world, [
+  ground,
+  pyramid,
+  ground2,
+  pyramid2,
+  rock,
+  elastic,
+]);
+
+Events.on(engine, 'afterUpdate', function () {
+  if (
+    mouseConstraint.mouse.button === -1 &&
+    (rock.position.x > 190 || rock.position.y < 430)
+  ) {
+    // Limit maximum speed of current rock.
+    if (Body.getSpeed(rock) > 45) {
+      Body.setSpeed(rock, 45);
+    }
+
+    // Release current rock and add a new one.
+    rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
+    Composite.add(engine.world, rock);
+    elastic.bodyB = rock;
   }
+});
 
-  background(0, 100, 100);
-}
+// add mouse control
+var mouse = Mouse.create(render.canvas),
+  mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.2,
+      render: {
+        visible: false,
+      },
+    },
+  });
 
-function draw() {
-  background(0, 100, 100);
-  traffic.run();
-}
+Composite.add(world, mouseConstraint);
 
-// 포함된 함수: 클릭하고 움직일 때 작동함
-function mouseDragged() {
-  traffic.addVehicle(mouseX, mouseY);
-}
+// keep the mouse in sync with rendering
+render.mouse = mouse;
+
+// fit the render viewport to the scene
+Render.lookAt(render, {
+  min: { x: 0, y: 0 },
+  max: { x: 800, y: 600 },
+});

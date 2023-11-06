@@ -1,29 +1,139 @@
-let vehicle;
-let mVec;
-let debug = true;
+// // 없애야 하는 부분 1
+// var Example = Example || {};
 
-function setup() {
-  setCanvasContainer('canvas', 2, 1, true);
+// // 없애라 1
+// Example.slingshot = function () {
+var Engine = Matter.Engine,
+  Render = Matter.Render,
+  Runner = Matter.Runner,
+  Composites = Matter.Composites,
+  Events = Matter.Events,
+  Constraint = Matter.Constraint,
+  MouseConstraint = Matter.MouseConstraint,
+  Mouse = Matter.Mouse,
+  Body = Matter.Body,
+  Composite = Matter.Composite,
+  Bodies = Matter.Bodies;
 
-  colorMode(HSL, 360, 100, 100, 100);
+// create engine
+var engine = Engine.create(),
+  world = engine.world;
 
-  vehicle = new Vehicle(
-    width / 2,
-    height / 2,
-    16,
-    5,
-    0.1,
-    color(HSL, 330, 100, 50)
-  );
-  mVec = createVector();
+// create renderer
+const elem = document.querySelector('#canvas');
+var render = Render.create({
+  element: elem,
+  engine: engine,
+  options: {
+    width: 800,
+    height: 600,
+    showAngleIndicator: true,
+  },
+});
 
-  colorMode(RGB, 255, 255, 255);
-  background(255);
-}
-function draw() {
-  background(255);
-  mVec.set(mouseX, mouseY);
-  vehicle.seek(mVec);
-  vehicle.update();
-  vehicle.display();
-}
+Render.run(render);
+
+// create runner
+var runner = Runner.create();
+Runner.run(runner, engine);
+
+// add bodies
+var ground = Bodies.rectangle(395, 600, 815, 50, {
+    isStatic: true,
+    render: { fillStyle: '#060a19' },
+  }),
+  rockOptions = { density: 0.004 },
+  rock = Bodies.polygon(170, 450, 8, 20, rockOptions),
+  anchor = { x: 170, y: 450 },
+  elastic = Constraint.create({
+    pointA: anchor,
+    bodyB: rock,
+    length: 0.01,
+    damping: 0.01,
+    stiffness: 0.05,
+  });
+
+var pyramid = Composites.pyramid(500, 300, 9, 10, 0, 0, function (x, y) {
+  return Bodies.rectangle(x, y, 25, 40);
+});
+
+var ground2 = Bodies.rectangle(610, 250, 200, 20, {
+  isStatic: true,
+  render: { fillStyle: '#060a19' },
+});
+
+var pyramid2 = Composites.pyramid(550, 0, 5, 10, 0, 0, function (x, y) {
+  return Bodies.rectangle(x, y, 25, 40);
+});
+
+Composite.add(engine.world, [
+  ground,
+  pyramid,
+  ground2,
+  pyramid2,
+  rock,
+  elastic,
+]);
+
+Events.on(engine, 'afterUpdate', function () {
+  if (
+    mouseConstraint.mouse.button === -1 &&
+    (rock.position.x > 190 || rock.position.y < 430)
+  ) {
+    // Limit maximum speed of current rock.
+    if (Body.getSpeed(rock) > 45) {
+      Body.setSpeed(rock, 45);
+    }
+
+    // Release current rock and add a new one.
+    rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
+    Composite.add(engine.world, rock);
+    elastic.bodyB = rock;
+  }
+});
+
+// add mouse control
+var mouse = Mouse.create(render.canvas),
+  mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.2,
+      render: {
+        visible: false,
+      },
+    },
+  });
+
+Composite.add(world, mouseConstraint);
+
+// keep the mouse in sync with rendering
+render.mouse = mouse;
+
+// fit the render viewport to the scene
+Render.lookAt(render, {
+  min: { x: 0, y: 0 },
+  max: { x: 800, y: 600 },
+});
+
+// // context for MatterTools.Demo (삭제)
+// return {
+//   engine: engine,
+//   runner: runner,
+//   render: render,
+//   canvas: render.canvas,
+//   stop: function () {
+//     Matter.Render.stop(render);
+//     Matter.Runner.stop(runner);
+//   },
+// };
+
+// // 없애라 2
+// };
+
+// // 없애야 하는 부분 2
+// Example.slingshot.title = 'Slingshot';
+// Example.slingshot.for = '>=0.14.2';
+
+// if (typeof module !== 'undefined') {
+//   module.exports = Example.slingshot;
+// }
