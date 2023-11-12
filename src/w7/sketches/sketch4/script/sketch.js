@@ -3,7 +3,7 @@ let dataPoint = [];
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
 
-  frameRate(5);
+  frameRate(10);
 
   // 어레이 안에 0.5 50개 넣기
   for (let i = 0; i < 50; i++) {
