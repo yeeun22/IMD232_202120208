@@ -51,7 +51,7 @@ function setup() {
     { x: -3.6 * 4, y: 1.9 * 4 },
     { x: -1.3 * 4, y: -2.8 * 4 },
   ];
-  for (let n = 0; n < 4; n++) {
+  for (let n = 0; n < 10; n++) {
     const randomVector = p5.Vector.random2D();
     randomVector.mult(5);
     const aNewShape = new MatterShape(width / 2, 50, vertices);
@@ -63,13 +63,19 @@ function setup() {
     matterShapes.push(aNewShape);
   }
 
+  // 캔버스 안에서 마우스 생성
   m = Mouse.create(document.querySelector('.p5Canvas'));
   //   m = Mouse.create(canvas.elt);
+
   //   console.log(pixelDensity());
+  // 확대해도 상관없이 마우스 적용 가능하게 하는 함수
   m.pixelRatio = pixelDensity();
+
+  // // 캔버스 안에서 MouseConstraint 생성
   mc = MouseConstraint.create(matterEngine, {
     mouse: m,
   });
+  // 세계 속에 mc 넣기
   Composite.add(matterEngine.world, mc);
 
   background('white');
