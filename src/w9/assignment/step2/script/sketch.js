@@ -10,6 +10,7 @@ const {
   Vertices,
   Body,
   Bodies,
+  Constraint,
 } = Matter;
 
 // provide concave decomposition support library
@@ -25,10 +26,12 @@ const runner = Runner.create();
 const oWidth = 800;
 const oHeight = 600;
 
-let mouse;
-
 const walls = [];
-let stack;
+let ropeA;
+let ropeB;
+let ropeC;
+
+let mouse;
 
 function setup() {
   setCanvasContainer('canvas', oWidth, oHeight, true);
@@ -38,11 +41,14 @@ function setup() {
   walls.push(Bodies.rectangle(400, 600, 800, 50, { isStatic: true }));
   walls.push(Bodies.rectangle(800, 300, 50, 600, { isStatic: true }));
   walls.push(Bodies.rectangle(0, 300, 50, 600, { isStatic: true }));
+  Composite.add(world, walls);
 
   // add bodies
-  var group = Body.nextGroup(true);
 
-  var ropeA = Composites.stack(100, 50, 8, 1, 10, 10, function (x, y) {
+  //ropeA
+  let group = Body.nextGroup(true);
+
+  ropeA = Composites.stack(100, 50, 8, 1, 10, 10, function (x, y) {
     return Bodies.rectangle(x, y, 50, 20, {
       collisionFilter: { group: group },
     });
@@ -64,9 +70,10 @@ function setup() {
     })
   );
 
+  //ropeB
   group = Body.nextGroup(true);
 
-  var ropeB = Composites.stack(350, 50, 10, 1, 10, 10, function (x, y) {
+  ropeB = Composites.stack(350, 50, 10, 1, 10, 10, function (x, y) {
     return Bodies.circle(x, y, 20, { collisionFilter: { group: group } });
   });
 
@@ -86,9 +93,10 @@ function setup() {
     })
   );
 
+  //ropeC
   group = Body.nextGroup(true);
 
-  var ropeC = Composites.stack(600, 50, 13, 1, 10, 10, function (x, y) {
+  ropeC = Composites.stack(600, 50, 13, 1, 10, 10, function (x, y) {
     return Bodies.rectangle(x - 20, y, 50, 20, {
       collisionFilter: { group: group },
       chamfer: 5,
@@ -132,41 +140,90 @@ function draw() {
   mouse.pixelRatio = (pixelDensity() * width) / oWidth; // !!!중요중요!!!
   background('white');
 
-  stroke(0);
-  noFill();
-  //walls
-  walls.forEach((eachWall) => {
+  //   //walls
+  //   walls.forEach((eachWall) => {
+  //     beginShape();
+  //     eachWall.vertices.forEach((eachVertex) => {
+  //       vertex(
+  //         (eachVertex.x / oWidth) * width,
+  //         (eachVertex.y / oHeight) * height
+  //       );
+  //     });
+  //     endShape(CLOSE);
+  //   });
+
+  //ropeA
+  noStroke();
+  fill('cornflowerblue');
+  ropeA.bodies.forEach((eachBody) => {
     beginShape();
-    eachWall.vertices.forEach((eachVertex) => {
+    eachBody.vertices.forEach((eachVertex) => {
       vertex(
         (eachVertex.x / oWidth) * width,
         (eachVertex.y / oHeight) * height
       );
     });
     endShape(CLOSE);
+    eachBody.parts.forEach((eachPart, idx) => {
+      if (idx === 0) return;
+      beginShape();
+      eachPart.vertices.forEach((eachVertex) => {
+        vertex(
+          (eachVertex.x / oWidth) * width,
+          (eachVertex.y / oHeight) * height
+        );
+      });
+      endShape(CLOSE);
+    });
   });
 
-  // stack.bodies.forEach((eachBody) => {
-  // beginShape();
-  // eachBody.vertices.forEach((eachVertex) => {
-  //   vertex(
-  //     (eachVertex.x / oWidth) * width,
-  //     (eachVertex.y / oHeight) * height
-  //   );
-  // });
-  // endShape(CLOSE);
-  //     noStroke();
-  //     fill('cornflowerblue');
-  //     eachBody.parts.forEach((eachPart, idx) => {
-  //       if (idx === 0) return;
-  //       beginShape();
-  //       eachPart.vertices.forEach((eachVertex) => {
-  //         vertex(
-  //           (eachVertex.x / oWidth) * width,
-  //           (eachVertex.y / oHeight) * height
-  //         );
-  //       });
-  //       endShape(CLOSE);
-  //     });
-  // });
+  //ropeB
+  noStroke();
+  fill('cornflowerblue');
+  ropeB.bodies.forEach((eachBody) => {
+    beginShape();
+    eachBody.vertices.forEach((eachVertex) => {
+      vertex(
+        (eachVertex.x / oWidth) * width,
+        (eachVertex.y / oHeight) * height
+      );
+    });
+    endShape(CLOSE);
+    eachBody.parts.forEach((eachPart, idx) => {
+      if (idx === 0) return;
+      beginShape();
+      eachPart.vertices.forEach((eachVertex) => {
+        vertex(
+          (eachVertex.x / oWidth) * width,
+          (eachVertex.y / oHeight) * height
+        );
+      });
+      endShape(CLOSE);
+    });
+  });
+
+  //ropeC
+  noStroke();
+  fill('cornflowerblue');
+  ropeC.bodies.forEach((eachBody) => {
+    beginShape();
+    eachBody.vertices.forEach((eachVertex) => {
+      vertex(
+        (eachVertex.x / oWidth) * width,
+        (eachVertex.y / oHeight) * height
+      );
+    });
+    endShape(CLOSE);
+    eachBody.parts.forEach((eachPart, idx) => {
+      if (idx === 0) return;
+      beginShape();
+      eachPart.vertices.forEach((eachVertex) => {
+        vertex(
+          (eachVertex.x / oWidth) * width,
+          (eachVertex.y / oHeight) * height
+        );
+      });
+      endShape(CLOSE);
+    });
+  });
 }
