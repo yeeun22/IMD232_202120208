@@ -36,6 +36,8 @@ let mouse;
 function setup() {
   setCanvasContainer('canvas', oWidth, oHeight, true);
 
+  colorMode(HSL, 360, 100, 100, 100);
+
   //walls에 추가
   walls.push(Bodies.rectangle(400, 0, 800, 50, { isStatic: true }));
   walls.push(Bodies.rectangle(400, 600, 800, 50, { isStatic: true }));
@@ -45,17 +47,22 @@ function setup() {
 
   // add bodies
 
+  //모양
+  let star = Vertices.fromPath(
+    '0 0 5 0 5 18 23 13 26 22 8 28 19 43 11 50 0 34 -11 50 -19 43 -8 28 -26 22 -23 13 -5 18'
+  );
+
   //ropeA
   let group = Body.nextGroup(true);
 
   ropeA = Composites.stack(oWidth / 4, 50, 8, 1, 10, 10, function (x, y) {
-    return Bodies.rectangle(x, y, 50, 20, {
+    return Bodies.fromVertices(x, y, Common.choose([star]), {
       collisionFilter: { group: group },
     });
   });
 
   Composites.chain(ropeA, 0.5, 0, -0.5, 0, {
-    stiffness: 0.8,
+    stiffness: 0.4,
     length: 2,
     render: { type: 'line' },
   });
@@ -97,13 +104,13 @@ function setup() {
   group = Body.nextGroup(true);
 
   ropeC = Composites.stack((oWidth / 4) * 3, 50, 6, 1, 10, 10, function (x, y) {
-    return Bodies.rectangle(x - 20, y, 50, 20, {
+    return Bodies.polygon(x, y, 3, 25, {
       collisionFilter: { group: group },
       chamfer: 5,
     });
   });
 
-  Composites.chain(ropeC, 0.3, 0, -0.3, 0, { stiffness: 1, length: 0 });
+  Composites.chain(ropeC, 0.3, 0, -0.3, 0, { stiffness: 1, length: 4 });
   Composite.add(
     ropeC,
     Constraint.create({
@@ -138,7 +145,7 @@ function setup() {
 }
 function draw() {
   mouse.pixelRatio = (pixelDensity() * width) / oWidth; // !!!중요중요!!!
-  background('white');
+  background(0, 0, 8);
 
   //   //walls
   //   walls.forEach((eachWall) => {
@@ -151,19 +158,18 @@ function draw() {
   //     });
   //     endShape(CLOSE);
   //   });
-
   //ropeA
-  noStroke();
-  fill('cornflowerblue');
+  noStroke(0);
+  fill(250, 100, 50);
   ropeA.bodies.forEach((eachBody) => {
-    beginShape();
-    eachBody.vertices.forEach((eachVertex) => {
-      vertex(
-        (eachVertex.x / oWidth) * width,
-        (eachVertex.y / oHeight) * height
-      );
-    });
-    endShape(CLOSE);
+    // beginShape();
+    // eachBody.vertices.forEach((eachVertex) => {
+    //   vertex(
+    //     (eachVertex.x / oWidth) * width,
+    //     (eachVertex.y / oHeight) * height
+    //   );
+    // });
+    // endShape(CLOSE);
     eachBody.parts.forEach((eachPart, idx) => {
       if (idx === 0) return;
       beginShape();
@@ -179,7 +185,7 @@ function draw() {
 
   //ropeB
   noStroke();
-  fill('cornflowerblue');
+  fill(140, 100, 50);
   ropeB.bodies.forEach((eachBody) => {
     beginShape();
     eachBody.vertices.forEach((eachVertex) => {
@@ -204,7 +210,7 @@ function draw() {
 
   //ropeC
   noStroke();
-  fill('cornflowerblue');
+  fill(300, 100, 50);
   ropeC.bodies.forEach((eachBody) => {
     beginShape();
     eachBody.vertices.forEach((eachVertex) => {
