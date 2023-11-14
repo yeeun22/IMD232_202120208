@@ -48,7 +48,7 @@ function setup() {
   //ropeA
   let group = Body.nextGroup(true);
 
-  ropeA = Composites.stack(100, 50, 8, 1, 10, 10, function (x, y) {
+  ropeA = Composites.stack(oWidth / 4, 50, 8, 1, 10, 10, function (x, y) {
     return Bodies.rectangle(x, y, 50, 20, {
       collisionFilter: { group: group },
     });
@@ -73,7 +73,7 @@ function setup() {
   //ropeB
   group = Body.nextGroup(true);
 
-  ropeB = Composites.stack(350, 50, 10, 1, 10, 10, function (x, y) {
+  ropeB = Composites.stack(oWidth / 2, 50, 8, 1, 10, 10, function (x, y) {
     return Bodies.circle(x, y, 20, { collisionFilter: { group: group } });
   });
 
@@ -96,7 +96,7 @@ function setup() {
   //ropeC
   group = Body.nextGroup(true);
 
-  ropeC = Composites.stack(600, 50, 13, 1, 10, 10, function (x, y) {
+  ropeC = Composites.stack((oWidth / 4) * 3, 50, 6, 1, 10, 10, function (x, y) {
     return Bodies.rectangle(x - 20, y, 50, 20, {
       collisionFilter: { group: group },
       chamfer: 5,
