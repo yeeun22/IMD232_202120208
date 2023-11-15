@@ -160,7 +160,7 @@ function draw() {
   //   });
   //ropeA
   noStroke(0);
-  fill(250, 100, 50);
+  fill(250, 100, 55);
   ropeA.bodies.forEach((eachBody) => {
     // beginShape();
     // eachBody.vertices.forEach((eachVertex) => {
@@ -210,7 +210,7 @@ function draw() {
 
   //ropeC
   noStroke();
-  fill(300, 100, 50);
+  fill(300, 100, 55);
   ropeC.bodies.forEach((eachBody) => {
     beginShape();
     eachBody.vertices.forEach((eachVertex) => {
