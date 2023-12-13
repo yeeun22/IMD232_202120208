@@ -10,4 +10,8 @@ function setup() {
 function draw() {
   background('white');
   image(cam, 0, 0, width, (cam.height / cam.width) * width);
+  // filter(BLUR, 1);
+  filter(INVERT);
+  // filter(THRESHOLD);
+  // filter(POSTERIZE, 30);
 }
