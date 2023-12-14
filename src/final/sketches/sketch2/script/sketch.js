@@ -23,6 +23,10 @@ function draw() {
   noStroke();
   fill(0);
 
+  // 글자 크기 설정
+  const fontSize = 30;
+  textSize(fontSize);
+
   for (let i = 0; i < dataPoint.length; i++) {
     // width / (정렬하고 싶은 수 + 1 ) => 원 4개를 같은 거리로 배치하고 싶으면 5개로 길이 나누고 배치
     // 그리고 *(곱하기) 자신이 놓고싶은 순서 + 1 => 원 4개 중 첫번째 원의 위치를 찍는다면 1-2로 가는 길이가 아닌 2-3으로 가는 길이의 시작점에 찍어야 함
@@ -32,7 +36,6 @@ function draw() {
     // // 원래 좌표에서 가로 세로 바꿈
     const x = map(dataPoint[i], 0, 1, width, 0);
     const y = (height / (dataPoint.length + 1)) * (i + 1);
-
     // Draw '지' or '글' based on the value of dataPoint[i]
     if (i % 2 === 0) {
       text('지', x, y);
