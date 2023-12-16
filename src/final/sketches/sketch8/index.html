@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>지글지글</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        margin-inline: auto;
+        padding-inline: 1rem;
+      }
+
+      #canvas {
+        margin-inline: auto;
+        max-width: 60rem;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script src="./script/FireParticle.js" defer></script>
+    <script src="./script/TextParticle.js" defer></script>
+    <script src="./script/sketch.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="canvas"></div>
+    </div>
+  </body>
+</html>

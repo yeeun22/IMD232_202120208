@@ -70,7 +70,7 @@ class Particle {
     this.pos = pos;
     this.vel = p5.Vector.random2D();
     this.acc = createVector(0, 0);
-    this.lifeSpan = random(70, 150);
+    this.lifeSpan = random(40, 70);
     this.life = this.lifeSpan;
   }
 
@@ -103,11 +103,16 @@ class Particle {
     for (let particle of particles) {
       // 현재 수명 비율 계산
       let lifeRatio = particle.life / particle.lifeSpan;
+
       // 빨간색에서 노란색으로
-      let col = lerpColor(color('red'), color('yellow'), 1 - lifeRatio);
+      let col = lerpColor(color('yellow'), color('red'), 1 - lifeRatio);
+
+      // 알파 값을 직접 설정
+      col.setAlpha(map(lifeRatio, 0, 1, 0, 255));
 
       // 수명 기간에 따라 크기 변화
-      let radius = map(lifeRatio, 0, 1, 10, 20);
+      // let radius = map(lifeRatio, 0, 1, 20, 50);
+      let radius = 40;
 
       //본격 그리기
       fill(col);
