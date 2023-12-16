@@ -21,23 +21,21 @@ function draw() {
   let windX = map(mouseX, 0, width - 1, -1, 1) * 0.05;
   windForce.set(windX, 0);
 
-  // 일정 간격으로 입자 추가
-  if (frameCount % 10 === 0) {
-    addParticle(characters[floor(random(characters.length))]);
-  }
+  addParticle();
 
   applyForceToParticles(floatingForce);
   applyForceToParticles(windForce);
-  handleParticleCollisions();
+  // handleParticleCollisions();
   updateParticles();
 
   background('white');
   displayParticles();
 }
 
-function addParticle(character) {
-  let pos = createVector(random(width), height / 2);
-  particles.push(new Particle(pos, character));
+function addParticle() {
+  //생성 위치
+  let pos = createVector(random(width), height - 10);
+  particles.push(new Particle(pos));
 }
 
 function applyForceToParticles(force) {
@@ -68,12 +66,11 @@ function displayParticles() {
 }
 
 class Particle {
-  constructor(pos, character) {
+  constructor(pos) {
     this.pos = pos;
     this.vel = p5.Vector.random2D();
     this.acc = createVector(0, 0);
-    this.character = character;
-    this.lifeSpan = random(500, 720);
+    this.lifeSpan = random(70, 150);
     this.life = this.lifeSpan;
   }
 
@@ -96,19 +93,31 @@ class Particle {
 
   update() {
     this.vel.add(this.acc);
-    this.vel.mult(0.98); // 0.97은 입자가 천천히 느려지도록 하는 계수입니다.
+    this.vel.mult(0.98); // 0.97은 입자가 천천히 느려지도록 하는 계수
     this.pos.add(this.vel);
     this.acc.mult(0);
     this.life--;
   }
 
   display() {
-    fill('black');
-    const fontSize = 30;
-    textSize(fontSize);
-    text(this.character, this.pos.x, this.pos.y);
+    for (let particle of particles) {
+      // 현재 수명 비율 계산
+      let lifeRatio = particle.life / particle.lifeSpan;
+      // 빨간색에서 노란색으로
+      let col = lerpColor(color('red'), color('yellow'), 1 - lifeRatio);
+
+      // 수명 기간에 따라 크기 변화
+      let radius = map(lifeRatio, 0, 1, 10, 20);
+
+      //본격 그리기
+      fill(col);
+      noStroke();
+
+      ellipse(particle.pos.x, particle.pos.y, radius);
+    }
   }
 
+  // 수명이 끝나면 죽는
   isDead() {
     return this.life < 0;
   }
