@@ -164,7 +164,7 @@ function setup() {
 }
 
 function draw() {
-  background(255, 255, 255);
+  background('white');
 
   //불 생성주기 관리
   if (random() < 0.2) {
