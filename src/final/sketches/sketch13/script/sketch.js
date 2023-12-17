@@ -32,7 +32,7 @@ let fireSize = 6;
 function preload() {
   // 배경 이미지 미리 로드
   bgImage = loadImage(
-    'https://yeeun22.github.io/IMD232_202120208/src/final/sketches/sketch13/png/인미디_그래픽.png'
+    'https://yeeun22.github.io/IMD232_202120208/src/final/sketches/sketch13/png/graphic.png'
   );
 }
 
