@@ -29,6 +29,11 @@ let mc;
 let textBoxSize = 8;
 let fireSize = 6;
 
+function preload() {
+  // 배경 이미지 미리 로드
+  bgImage = loadImage('./png/인미디_그래픽.png');
+}
+
 // 불
 function createFires() {
   const fire1 = new MatterCircle(fixedWidth / 2, fixedHeight, fireSize);
@@ -110,6 +115,9 @@ function setup() {
   canvas.parent(canvasContainer);
   ratio = width / fixedWidth;
 
+  //이미지
+  image(bgImage, 0, 0, width, height);
+
   rectMode(CENTER);
 
   // 벽 (위치x, 위치y, 넓이, 높이)
@@ -186,6 +194,9 @@ function draw() {
     eachFire.display();
   });
 
+  //이미지
+
+  image(bgImage, 0, 0, width, height);
   // 각 텍스트에 적용
   texts.forEach((eachText) => {
     Body.applyForce(eachText.body, eachText.body.position, windVector);
