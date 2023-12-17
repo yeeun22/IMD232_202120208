@@ -3,7 +3,7 @@ const fixedWidth = 210;
 const fixedHeight = 297;
 const aspectRatio = fixedWidth / fixedHeight;
 //캔버스 너비 / 매터세계의 너비
-let ratio;
+let ratio; //
 
 const {
   Engine,
