@@ -26,14 +26,15 @@ const texts = [];
 
 let m;
 let mc;
+let boxSize = 8;
 
 function createTexts() {
   // '지'1 추가
   const zi1 = new MatterRect(
-    fixedWidth / 2 - 20,
+    fixedWidth / 2 - 10,
     fixedHeight + 20,
-    8,
-    8,
+    boxSize,
+    boxSize,
     {},
     '지'
   );
@@ -46,10 +47,10 @@ function createTexts() {
 
   // '지'2 추가
   const zi2 = new MatterRect(
-    fixedWidth / 2 + 20,
+    fixedWidth / 2 + 10,
     fixedHeight + 20,
-    8,
-    8,
+    boxSize,
+    boxSize,
     {},
     '지'
   );
@@ -64,8 +65,8 @@ function createTexts() {
   const gle1 = new MatterRect(
     fixedWidth / 2 - 20,
     fixedHeight + 20,
-    8,
-    8,
+    boxSize,
+    boxSize,
     {},
     '글'
   );
@@ -80,8 +81,8 @@ function createTexts() {
   const gle2 = new MatterRect(
     fixedWidth / 2 + 20,
     fixedHeight + 20,
-    8,
-    8,
+    boxSize,
+    boxSize,
     {},
     '글'
   );
@@ -142,7 +143,7 @@ function setup() {
 function draw() {
   background('white');
   // 생성주기 관리
-  if (random() < 0.01) {
+  if (random() < 0.05) {
     createTexts();
   }
   texts.forEach((eachText) => {
@@ -150,6 +151,7 @@ function draw() {
   });
 }
 
+// 화면 리사이즈
 function windowResized() {
   canvasContainer = document.querySelector('#canvas');
   resizeCanvas(

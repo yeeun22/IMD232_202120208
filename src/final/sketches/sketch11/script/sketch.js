@@ -21,19 +21,28 @@ const matterRunner = Runner.create();
 
 // 담을 통 만들기
 const walls = [];
-
 const texts = [];
+const fires = [];
 
 let m;
 let mc;
+let textBoxSize = 11;
+let fireSize = 5;
 
+// 불
+function createFires() {
+  const fire = new MatterCircle(fixedWidth / 2, fixedHeight / 2, fireSize);
+  fires.push(fire);
+}
+
+// 텍스트
 function createTexts() {
   // '지'1 추가
   const zi1 = new MatterRect(
     fixedWidth / 2 - 20,
     fixedHeight + 20,
-    8,
-    8,
+    textBoxSize,
+    textBoxSize,
     {},
     '지'
   );
@@ -46,10 +55,10 @@ function createTexts() {
 
   // '지'2 추가
   const zi2 = new MatterRect(
-    fixedWidth / 2 + 20,
+    fixedWidth / 2 + 10,
     fixedHeight + 20,
-    8,
-    8,
+    textBoxSize,
+    textBoxSize,
     {},
     '지'
   );
@@ -62,10 +71,10 @@ function createTexts() {
 
   // '글'1 추가
   const gle1 = new MatterRect(
-    fixedWidth / 2 - 20,
+    fixedWidth / 2 - 10,
     fixedHeight + 20,
-    8,
-    8,
+    textBoxSize,
+    textBoxSize,
     {},
     '글'
   );
@@ -80,8 +89,8 @@ function createTexts() {
   const gle2 = new MatterRect(
     fixedWidth / 2 + 20,
     fixedHeight + 20,
-    8,
-    8,
+    textBoxSize,
+    textBoxSize,
     {},
     '글'
   );
@@ -125,15 +134,17 @@ function setup() {
     })
   );
   //마우스 인터랙션
-  // m = Mouse.create(document.querySelector('.p5Canvas'));
-  // m.pixelRatio = pixelDensity();
-  // mc = MouseConstraint.create(matterEngine, {
-  //   mouse: m,
-  // });
-  // Composite.add(matterEngine.world, mc);
+  m = Mouse.create(canvas.elt);
+  m.pixelRatio = pixelDensity();
+  mc = MouseConstraint.create(matterEngine, {
+    mouse: m,
+  });
+  Composite.add(matterEngine.world, mc);
 
   // matter 중력
   matterEngine.gravity.y = -0.01;
+
+  circle(fixedWidth / 2, fixedHeight / 2, 50);
 
   Runner.run(matterRunner, matterEngine);
   background('white');
@@ -141,15 +152,33 @@ function setup() {
 
 function draw() {
   background('white');
-  // 생성주기 관리
-  if (random() < 0.01) {
+  // 텍스트 생성주기 관리
+  if (random() < 0.05) {
     createTexts();
   }
+  //불 생성주기 관리
+  if (random() < 0.1) {
+    createFires();
+  }
+
+  // 바람 설정
+  const windForce = mc.mouse.position.x - width / 2;
+  const windVector = createVector(windForce * 0.000000004, 0);
+
+  // 각 텍스트에 적용
   texts.forEach((eachText) => {
+    Body.applyForce(eachText.body, eachText.body.position, windVector);
     eachText.display();
+  });
+
+  // 각 불에 적용
+  fires.forEach((eachFire) => {
+    // Body.applyForce(eachFire.body, eachFire.body.position, windVector);
+    eachFire.display();
   });
 }
 
+// 화면 리사이즈
 function windowResized() {
   canvasContainer = document.querySelector('#canvas');
   resizeCanvas(
