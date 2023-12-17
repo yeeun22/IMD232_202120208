@@ -7,32 +7,30 @@ class MatterRect {
     this.text = text;
     this.textSize = 9 * ratio;
     // 랜덤주기
-    this.lifespan = random(1000, 2000);
+    this.lifespan = random(800, 1800);
   }
 
   display() {
-    // push();
-    // translate(ratio * this.body.position.x, ratio * this.body.position.y);
-    // rotate(this.body.angle);
-    // rect(0, 0, ratio * this.w, ratio * this.h);
-    // pop();
-    push();
-    translate(ratio * this.body.position.x, ratio * this.body.position.y);
-    textAlign(CENTER, CENTER);
-
     // 생명주기에 따라 alpha값 조절
     let alpha = map(this.lifespan, 0, 1500, 0, 255);
     alpha = constrain(alpha, 0, 255);
+
+    //텍스트 감싸는 원
+    push();
+    translate(ratio * this.body.position.x, ratio * this.body.position.y);
+    stroke(0, 0, 0, alpha);
+    ellipse(0, -2, textBoxSize * ratio);
+    pop();
+
+    //텍스트
+    push();
+    translate(ratio * this.body.position.x, ratio * this.body.position.y);
+    textAlign(CENTER, CENTER);
 
     fill(0, 0, 0, alpha);
     textSize(this.textSize);
     text(this.text, 0, 0);
     pop();
-    // beginShape();
-    // this.body.vertices.forEach((each) => {
-    //   vertex(each.x, each.y);
-    // });
-    // endShape(CLOSE);
 
     // 생명 -1
     this.lifespan--;

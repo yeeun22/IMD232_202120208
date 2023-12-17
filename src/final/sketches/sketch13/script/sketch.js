@@ -26,8 +26,8 @@ const fires = [];
 
 let m;
 let mc;
-let textBoxSize = 8;
-let fireSize = 6;
+let textBoxSize = 12;
+let fireSize = 4;
 
 function preload() {
   // 배경 이미지 미리 로드
@@ -38,8 +38,20 @@ function preload() {
 
 // 불
 function createFires() {
-  const fire1 = new MatterCircle(fixedWidth / 2, fixedHeight, fireSize);
+  //불 1
+  const fire1 = new MatterCircle(fixedWidth / 2 - 10, fixedHeight, fireSize);
+  //나올때 랜덤 각도로 나오도록
+  let angle = random(TAU * 0.7, TAU * 0.9);
+  let speed = random(0.1, 0.5);
+  let vecX = cos(angle) * speed;
+  let vecY = sin(angle) * speed;
+  Body.setVelocity(fire1.body, { x: vecX, y: vecY });
+
   fires.push(fire1);
+  // 불 2
+  const fire2 = new MatterCircle(fixedWidth / 2 + 10, fixedHeight, fireSize);
+  Body.setVelocity(fire2.body, { x: vecX, y: vecY });
+  fires.push(fire2);
 }
 
 // 텍스트
@@ -149,7 +161,7 @@ function setup() {
     new MatterRect(
       fixedWidth / 2,
       (fixedHeight * 4) / 5 + 10,
-      fixedWidth + 100,
+      fixedWidth + 500,
       5,
       {
         isStatic: true,
@@ -177,7 +189,7 @@ function draw() {
   background(255, 255, 255);
 
   //불 생성주기 관리
-  if (random() < 0.2) {
+  if (random() < 0.5) {
     createFires();
   }
 
@@ -188,7 +200,7 @@ function draw() {
 
   // 바람 설정
   const windForce = mc.mouse.position.x - fixedWidth / 2;
-  let windVector = createVector(windForce * 0.000000006, 0);
+  let windVector = createVector(windForce * 0.00000003, 0);
 
   // 각 불에 적용
   fires.forEach((eachFire) => {
